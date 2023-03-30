@@ -16,7 +16,7 @@ exports.registration = async(req,res) => {
             else{
                 var img = "https://res.cloudinary.com/dxrwia7os/image/upload/v1678772961/ndwoyjyb1i5n6gudqsqj.jpg"
             }
-            if(password==confirmPassword){
+            if(req.body.password!==req.body.confirmPassword){
                 res.status(400).json({
                     message:"PASSWORD AND CONFIRMPASSWORD DOES NOT MATCH",
                     status:400
