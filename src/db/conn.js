@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://trusha_kyada:mzpDm8tMztVxwA6w@cluster0.byle2xx.mongodb.net/education", {
+mongoose.connect("Process.env.connection", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 
