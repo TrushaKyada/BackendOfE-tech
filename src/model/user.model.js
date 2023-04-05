@@ -32,6 +32,9 @@ const userSchema = mongoose.Schema({
     },
     token: {
         type: String
+    },
+    otp:{
+        type :Number
     }
 
 },{timestamps:true},{versionKey: false},{

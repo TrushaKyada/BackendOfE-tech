@@ -24,18 +24,23 @@ exports.registration = async(req,res) => {
             } 
 
             else{
-
+                let otp =  Math.floor(1000 + Math.random() * 9000);
                 const User = new user({
                     name:req.body.name,
                     email:req.body.email,
                     password:bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null),
                     wallet:req.body.wallet || 0 ,
                     gender:req.body.gender,
-                    image:img
+                    image:img,
+                    otp:otp
                 })
                 const saveData = await User.save();
+                let sub = "start using this system now";
+                let html = `<p>your email verify code is <b> ${otp} </b> </p>`;
+    
+                await mailService(req.body.email, sub, html)
                 res.status(200).json({
-                    message:"REGISTRATION SUCCESSFULLY",
+                    message:"REGISTRATION SUCCESSFULLY, PLZZ CHECK YOUR REGISTER EMAIL FOR VERIFY EMAIL",
                     data:saveData,
                     status:200
                 })  
@@ -44,10 +49,42 @@ exports.registration = async(req,res) => {
         else{
             console.log("bsanjn");
             res.status(409).json({
-                message:"ALREADY EXIST",
+                message:"THIS EMAIL IS ALREADY EXIST",
                 status:409
             })
         }
+    } catch (error) {
+        console.log("error",error);
+        res.status(500).json({
+            message:"SOMETHING WENT WRONG",
+            status:500
+        })
+    }
+}
+exports.verifyEmail = async(req,res)=>{
+    try {
+       const data = await user.findById({_id:req.params.id})
+       if(data){
+            if(data.otp == req.body.otp){
+                res.status(200).json({
+                    message:"YOUR REGISTER EMAIL IS VERIFIED SUCCESSFULLY",
+                    status:200
+                })
+            }
+            else{
+                await user.findByIdAndDelete({_id:req.params.id})
+                res.status(400).json({
+                    message:"YOUR REGISTER EMAIL IS NOT VERIFIED, PLEASE TRY AGAIN LETTER",
+                    status:400
+                })
+            }
+       }
+       else{
+        res.status(404).json({
+            message:"UESR NOT FOUND",
+            status:404
+        })
+       }
     } catch (error) {
         console.log("error",error);
         res.status(500).json({
