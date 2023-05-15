@@ -7,10 +7,9 @@ var mailService = async (to, sub, html) => {
             // port: 587,    //optional
             // secure: false,   //optional
             auth: {
-                user: "0083.work@gmail.com", // Your email id
-                pass: "izlsnoyieiqtaray", // Your password
-                // user: 'mansiankoliya1@gmail.com',
-                // pass: 'jptddshgsvfchzhw'
+                user: email, // Your email id
+                pass: password, // Your password
+               
 
             },
             tls: {
@@ -19,7 +18,7 @@ var mailService = async (to, sub, html) => {
         });
 
         let mailOption = {
-            from: 'mansiankoliya1@gmail.com', // Your Mail
+            from: email, // Your Mail
             to: to,
             subject: sub,
             html: html,
